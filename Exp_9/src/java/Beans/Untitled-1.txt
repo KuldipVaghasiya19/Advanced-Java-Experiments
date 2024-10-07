@@ -1,0 +1,109 @@
+// Laptop.java
+public class Laptop {
+    private String processor;
+    private int ram;
+    private int ssd;
+    private int graphicsCard;
+    private String operatingSystem;
+
+    // Private constructor
+    private Laptop(LaptopBuilder builder) {
+        this.processor = builder.processor;
+        this.ram = builder.ram;
+        this.ssd = builder.ssd;
+        this.graphicsCard = builder.graphicsCard;
+        this.operatingSystem = builder.operatingSystem;
+    }
+
+    // Getters
+    public String getProcessor() { return processor; }
+    public int getRam() { return ram; }
+    public int getSsd() { return ssd; }
+    public int getGraphicsCard() { return graphicsCard; }
+    public String getOperatingSystem() { return operatingSystem; }
+
+    @Override
+    public String toString() {
+        return "Laptop Configuration: " + "Processor=" + processor +
+               ", RAM=" + ram + "GB, SSD=" + ssd + "GB, Graphics Card=" +
+               graphicsCard + "GB, OS=" + operatingSystem;
+    }
+
+    // Builder Class
+    public static class LaptopBuilder {
+        private String processor = "Intel i5";
+        private int ram = 8; // Default
+        private int ssd = 500; // Default
+        private int graphicsCard = 2; // Default
+        private String operatingSystem = "Windows 11"; // Default
+
+        public LaptopBuilder setProcessor(String processor) {
+            this.processor = processor;
+            return this;
+        }
+
+        public LaptopBuilder setRam(int ram) {
+            this.ram = ram;
+            return this;
+        }
+
+        public LaptopBuilder setSsd(int ssd) {
+            this.ssd = ssd;
+            return this;
+        }
+
+        public LaptopBuilder setGraphicsCard(int graphicsCard) {
+            this.graphicsCard = graphicsCard;
+            return this;
+        }
+
+        public LaptopBuilder setOperatingSystem(String operatingSystem) {
+            this.operatingSystem = operatingSystem;
+            return this;
+        }
+
+        public Laptop build() {
+            return new Laptop(this);
+        }
+    }
+}
+
+
+/* =========================================  */
+
+public class Main {
+    public static void main(String[] args) {
+        // Default Configuration
+        Laptop defaultLaptop = new Laptop.LaptopBuilder().build();
+        System.out.println(defaultLaptop);
+
+        // User-specified Configuration 1
+        Laptop customLaptop1 = new Laptop.LaptopBuilder()
+                                    .setProcessor("Intel i7")
+                                    .setRam(16)
+                                    .setSsd(1000)
+                                    .setGraphicsCard(4)
+                                    .setOperatingSystem("Windows 10")
+                                    .build();
+        System.out.println(customLaptop1);
+
+        // User-specified Configuration 2
+        Laptop customLaptop2 = new Laptop.LaptopBuilder()
+                                    .setProcessor("AMD Ryzen 5")
+                                    .setRam(32)
+                                    .setSsd(2000)
+                                    .setGraphicsCard(8)
+                                    .setOperatingSystem("Linux Ubuntu")
+                                    .build();
+        System.out.println(customLaptop2);
+    }
+}
+
+//================================================
+
+OUTPUT:
+
+Laptop Configuration: Processor=Intel i5, RAM=8GB, SSD=500GB, Graphics Card=2GB, OS=Windows 11
+Laptop Configuration: Processor=Intel i7, RAM=16GB, SSD=1000GB, Graphics Card=4GB, OS=Windows 10
+Laptop Configuration: Processor=AMD Ryzen 5, RAM=32GB, SSD=2000GB, Graphics Card=8GB, OS=Linux Ubuntu
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <script type="text/javascript">
+        var websocket;
+
+        function openSocket() {
+            // Create a new WebSocket instance
+            websocket = new WebSocket("ws://" + window.location.host + "/ChatApplication/chat");
+
+            // Handle incoming messages
+            websocket.onmessage = function(event) {
+                var chatArea = document.getElementById("chatArea");
+                chatArea.value += "Received: " + event.data + "\n"; // Display received messages
+            };
+
+            websocket.onopen = function() {
+                console.log("Connected to WebSocket server");
+            };
+
+            websocket.onclose = function() {
+                console.log("Disconnected from WebSocket server");
+            };
+        }
+
+        function sendMessage() {
+            var messageInput = document.getElementById("messageInput");
+            var message = messageInput.value;
+
+            // Append the sent message to the chat area
+            var chatArea = document.getElementById("chatArea");
+            chatArea.value += "Sent: " + message + "\n"; // Show the sent message
+
+            websocket.send(message); // Send the message to the server
+            messageInput.value = ""; // Clear the text input
+        }
+
+        window.onload = openSocket;
+    </script>
+</head>
+<body>
+    <h2>Chat Application</h2>
+    <textarea id="chatArea" rows="20" cols="50" readonly></textarea><br>
+    <input type="text" id="messageInput" placeholder="Type your message here">
+    <button onclick="sendMessage()">Send</button>
+</body>
+</html>
